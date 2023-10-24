@@ -1,0 +1,48 @@
+/*
+ * Copyright (c) 2022 Huawei Device Co., Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import picker from '@ohos.file.picker';
+import fs from '@ohos.file.fs';
+
+export const newsList = [{ title: $r('app.string.new_title1'), publisher: $r('app.string.new_publisher1'), newId: 0 },
+                         { title: $r('app.string.new_title2'), publisher: $r('app.string.new_publisher2'), newId: 1 },
+                         { title: $r('app.string.new_title3'), publisher: $r('app.string.new_publisher3'), newId: 2 },
+                         { title: $r('app.string.new_title4'), publisher: $r('app.string.new_publisher4'), newId: 3 }]
+
+export const newsContent = [{ newId: 0, content: $r('app.string.new_content1')},
+                            { newId: 1, content: $r('app.string.new_content2')},
+                            { newId: 2, content: $r('app.string.new_content3')},
+                            { newId: 3, content: $r('app.string.new_content4')}]
+
+export function getText(id) {
+  for (let i = 0;i < newsContent.length; i++) {
+    if (newsContent[i].newId == id) {
+      return newsContent[i]
+    }
+  }
+}
+
+export function importText()
+{
+  let textSelector = new picker.DocumentSelectOptions();
+  let URI = null;
+  let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
+  documentViewPicker.select(textSelector).then((documentSelectResult) => {
+    URI = documentSelectResult[0];
+    console.info('documentViewPicker.select to file succeed and URI is:' + URI);
+  }).catch((err) => {
+    console.error(`Invoke documentViewPicker.select failed, code is ${err.code}, message is ${err.message}`);
+  })
+  return URI
+}
