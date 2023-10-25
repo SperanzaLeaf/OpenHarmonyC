@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 import picker from '@ohos.file.picker';
-import fs from '@ohos.file.fs';
 
 export const newsList = [{ title: $r('app.string.new_title1'), publisher: $r('app.string.new_publisher1'), newId: 0 },
                          { title: $r('app.string.new_title2'), publisher: $r('app.string.new_publisher2'), newId: 1 },
@@ -36,13 +35,18 @@ export function getText(id) {
 export function importText()
 {
   let textSelector = new picker.DocumentSelectOptions();
-  let URI = null;
   let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
-  documentViewPicker.select(textSelector).then((documentSelectResult) => {
-    URI = documentSelectResult[0];
-    console.info('documentViewPicker.select to file succeed and URI is:' + URI);
-  }).catch((err) => {
-    console.error(`Invoke documentViewPicker.select failed, code is ${err.code}, message is ${err.message}`);
-  })
-  return URI
+  documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
+    let editFlag = false;
+    if (DocumentSelectResult !== null && DocumentSelectResult !== undefined) {
+      DocumentSelectResult.forEach((value) => {
+        this.uri = value;
+        editFlag = true;
+      })
+    }
+    if (editFlag) {
+      this.getFilenameByUri(this.uri);
+    }
+  }).catch(() => {
+  });
 }

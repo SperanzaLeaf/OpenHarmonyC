@@ -13,23 +13,22 @@
  * limitations under the License.
  */
 import router from '@ohos.router'
-import mediaQuery from '@ohos.mediaquery'
 import picker from '@ohos.file.picker';
-import fs from '@ohos.file.fs';
+import mediaQuery from '@ohos.mediaquery'
+import Logger from '../model/Logger'
 import { newsList } from '../model/New'
 import { NewView } from '../common/NewView'
-import Logger from '../model/Logger'
 import { TextType } from '../model/DataModel'
 
 
 const TAG = 'MainIndex'
-const INDEXPAGE_BGCOLOR = '#F5F5F5'
 
 @Entry
 @Component
 struct Index {
   private listener = mediaQuery.matchMediaSync('screen and (min-aspect-ratio: 1.5) or (orientation: landscape)')
   @State currentNew: TextType = null
+  @State uri: string = 'Hello World'
   @State isLand: boolean = false
 
   onLand(mediaQueryResult) {
@@ -45,6 +44,22 @@ struct Index {
     this.listener.on('change', this.onLand.bind(this))
   }
 
+  async importText()
+  {
+    let textSelector = new picker.DocumentSelectOptions();
+    let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
+    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
+      let editFlag = false;
+      if (DocumentSelectResult !== null && DocumentSelectResult !== undefined) {
+        DocumentSelectResult.forEach((value) => {
+          this.uri = value;
+          editFlag = true;
+        })
+      }
+    }).catch(() => {
+    });
+  }
+
   build() {
     Row() {
       Column() {
@@ -56,12 +71,13 @@ struct Index {
             .fontSize(25)
             .alignSelf(ItemAlign.Start)
           Button("导入")
-            .onClick((event: ClickEvent) => {})
+            .onClick((event: ClickEvent) => {this.importText()})
             .backgroundColor("#F5F5F5")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
             .alignSelf(ItemAlign.End)
+          Text(this.uri)
         }
         List() {
           ForEach(newsList, (item, index) => {
