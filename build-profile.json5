@@ -20,13 +20,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_MediaQuery_ohos.samples.mediaquery_30086000568330726.cer",
-          "storePassword": "0000001A8FAB26DECC98286A263664454807BBB02C2AAC52E376D2C894EF8F2F3467F58A576B8607AAC8",
+          "certpath": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.cer",
+          "storePassword": "0000001A8E6B9F7073C20E1183EE24C0CCFBB063F3E1EE68F5E1923665BE17932D3A201BD58AF6127101",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001A3C2E7392F15546FD3C05A455F3573EC396E614C0F0FCBD0796EF127107634033B774F7C25575",
-          "profile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_MediaQuery_ohos.samples.mediaquery_30086000568330726.p7b",
+          "keyPassword": "0000001A0AE4B83C43F7DF0A52EC672BC55C2B992646B28DBB3854841D0E3D8B224B5CD69AFD86E8DFEC",
+          "profile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_MediaQuery_ohos.samples.mediaquery_30086000568330726.p12"
+          "storeFile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.p12"
         }
       }
     ],

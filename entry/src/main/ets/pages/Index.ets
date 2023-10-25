@@ -48,37 +48,29 @@ struct Index {
   {
     let textSelector = new picker.DocumentSelectOptions();
     let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
-    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
-      let editFlag = false;
-      if (DocumentSelectResult !== null && DocumentSelectResult !== undefined) {
-        DocumentSelectResult.forEach((value) => {
-          this.uri = value;
-          editFlag = true;
-        })
-      }
-    }).catch(() => {
-    });
+    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {DocumentSelectResult.forEach((value) => {this.uri = value;})})
   }
 
   build() {
     Row() {
       Column() {
         Row(){
-          Button("txt阅读器")
+          Text("txt阅读器")
             .backgroundColor("#F5F5F5")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
-            .alignSelf(ItemAlign.Start)
+            .padding({left: 15})
+            .layoutWeight(6)
           Button("导入")
             .onClick((event: ClickEvent) => {this.importText()})
             .backgroundColor("#F5F5F5")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
-            .alignSelf(ItemAlign.End)
+            .padding({right: 15})
+            .layoutWeight(1)
         }
-        Text(this.uri)
         List() {
           ForEach(newsList, (item, index) => {
             ListItem() {
