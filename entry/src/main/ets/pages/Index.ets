@@ -77,8 +77,8 @@ struct Index {
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
             .alignSelf(ItemAlign.End)
-          Text(this.uri)
         }
+        Text(this.uri)
         List() {
           ForEach(newsList, (item, index) => {
             ListItem() {
