@@ -60,6 +60,16 @@ struct Index {
       })
   }
 
+  /*Progress() {
+  let pageHeight = document.body.scrollHeight || document.documentElement.scrollHeight;
+  let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+  let scrollAvail = pageHeight - windowHeight;
+  window.onscroll = function () {
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      document.querySelector('.scrollBar').style.width = (scrollTop/scrollAvail)*100   '%';
+  };
+}*/
+
 
   build() {
     Row() {
@@ -68,10 +78,10 @@ struct Index {
           Text("txt阅读器")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
-            .fontSize(25)
+            .fontSize(20)
             .margin({ left: 15, right: 15 })
             .layoutWeight(2)
-          Select([{ value: '10px'}, { value: '15px'}, { value: '20px'}, { value: '25px'}, {value: '30px'}, { value: '35px'}])
+          Select([{ value: '10vp'}, { value: '15vp'}, { value: '20vp'}, { value: '25vp'}, {value: '30vp'}, { value: '35vp'}])
             .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .selected(1)
@@ -79,7 +89,7 @@ struct Index {
             .font({ size: 25, weight: 500 })
             .fontColor('#182431')
             .selectedOptionFont({ size: 25, weight: 400 })
-            .optionFont({ size: 25, weight: 400 })
+            .optionFont({ size: 20, weight: 400 })
             .onSelect((index: number) => {
               this.fontSize = 5 * (index + 2)
             })
@@ -90,20 +100,53 @@ struct Index {
             .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
-            .fontSize(25)
+            .fontSize(20)
             .margin({ left: 15, right: 15 })
             .layoutWeight(1)
 
         }
-        Scroll(this.scroller) {
-            Text(this.res)
-              .fontSize(this.fontSize)
-              .width('100%')
+        .height("8%")
+        Row()
+        {
+          Scroll(this.scroller) {
+              Text(this.res)
+                .fontSize(this.fontSize)
+                .width('100%')
+          }
+          .scrollable(ScrollDirection.Vertical)
+          .scrollBar(BarState.Auto)
+          .scrollBarColor(Color.Gray)
+          .scrollBarWidth(10)
         }
-        .scrollable(ScrollDirection.Vertical)
-        .scrollBar(BarState.Auto)
-        .scrollBarColor(Color.Gray)
-        .scrollBarWidth(10)
+        .height("84%")
+        Row()
+        {
+          Button("前进10%")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,190)})
+          Button("后退10%")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,-190)})
+          Button("回到开头")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,-9999)})
+          Button("去到结尾")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,9999)})
+        }
+        .height("8%")
       }
       .size({ width: '100%', height: '100%' })
     }
