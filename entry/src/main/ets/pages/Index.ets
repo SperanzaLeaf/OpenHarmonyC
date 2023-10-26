@@ -28,6 +28,7 @@ struct Index {
   @State res: string = ''
   @State fontSize: number = 15
   @State isLand: boolean = false
+  @State prog: string = ''
   private scroller: Scroller = new Scroller()
 
   onLand(mediaQueryResult) {
@@ -52,7 +53,7 @@ struct Index {
         })
       })
       let file = fs.openSync(this.uri);
-      let buf = new ArrayBuffer(4096);
+      let buf = new ArrayBuffer(64 * 1024 * 1024);
       let rd = new util.TextDecoder("utf-8", {ignoreBOM: true})
       fs.read(file.fd, buf, (err, readLen) => {
           this.res = rd.decode(new Uint8Array(buf.slice(0, readLen)));
@@ -112,6 +113,7 @@ struct Index {
               Text(this.res)
                 .fontSize(this.fontSize)
                 .width('100%')
+                .onClick(() => {(this.prog = (this.scroller.currentOffset().yOffset / 16707.8 * 100).toFixed(0))})
           }
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(BarState.Auto)
@@ -121,30 +123,36 @@ struct Index {
         .height("84%")
         Row()
         {
-          Button("前进10%")
+          Text(this.prog.toString() + "%")
             .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(20)
-            .onClick(() => { this.scroller.scrollBy(0,190)})
-          Button("后退10%")
-            .backgroundColor("ffffff")
-            .fontColor(Color.Black)
-            .fontWeight(FontWeight.Normal)
-            .fontSize(20)
-            .onClick(() => { this.scroller.scrollBy(0,-190)})
+            .onClick(() => {(this.prog = (this.scroller.currentOffset().yOffset / 16707.8 * 100).toFixed(0))})
           Button("回到开头")
             .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(20)
-            .onClick(() => { this.scroller.scrollBy(0,-9999)})
+            .onClick(() => { this.scroller.scrollTo({xOffset :0,yOffset: 0})})
           Button("去到结尾")
             .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(20)
-            .onClick(() => { this.scroller.scrollBy(0,9999)})
+            .onClick(() => { this.scroller.scrollBy(0,99999999999)})
+          Button("前进10%")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,1733)})
+          Button("后退10%")
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .fontWeight(FontWeight.Normal)
+            .fontSize(20)
+            .onClick(() => { this.scroller.scrollBy(0,-1733)})
         }
         .height("8%")
       }
