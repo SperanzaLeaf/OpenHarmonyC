@@ -21,9 +21,9 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.cer",
-          "storePassword": "0000001A8E6B9F7073C20E1183EE24C0CCFBB063F3E1EE68F5E1923665BE17932D3A201BD58AF6127101",
+          "storePassword": "0000001AFB75CB03E093CCF52619B6FC4E7A276E88BD582684529E27640BE0094AF190C2CBF0B64DA130",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001A0AE4B83C43F7DF0A52EC672BC55C2B992646B28DBB3854841D0E3D8B224B5CD69AFD86E8DFEC",
+          "keyPassword": "0000001AE88396777F360D9278C8DD7146AB2737016C9F9F70E7D1578D7B3CF9FBA626563F5D79CFB981",
           "profile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\枕流一叶\\.ohos\\config\\auto_debug_OpenHarmonyC_ohos.samples.mediaquery_30086000568330726.p12"

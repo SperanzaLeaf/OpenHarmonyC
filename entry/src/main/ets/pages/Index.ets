@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import router from '@ohos.router'
+import fs from '@ohos.file.fs'
 import picker from '@ohos.file.picker';
 import mediaQuery from '@ohos.mediaquery'
 import Logger from '../model/Logger'
@@ -29,7 +29,10 @@ struct Index {
   private listener = mediaQuery.matchMediaSync('screen and (min-aspect-ratio: 1.5) or (orientation: landscape)')
   @State currentNew: TextType = null
   @State uri: string = 'Hello World'
+  @State res: string = 'Hello World'
+  @State fontSize: number = 15
   @State isLand: boolean = false
+  private scroller: Scroller = new Scroller()
 
   onLand(mediaQueryResult) {
     Logger.info(`${TAG} onLand: mediaQueryResult.matches=${mediaQueryResult.matches}`)
@@ -44,78 +47,73 @@ struct Index {
     this.listener.on('change', this.onLand.bind(this))
   }
 
-  async importText()
-  {
+  async importText() {
     let textSelector = new picker.DocumentSelectOptions();
     let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
-    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {DocumentSelectResult.forEach((value) => {this.uri = value;})})
+    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
+      DocumentSelectResult.forEach((value) => {
+        this.uri = value;
+      })
+    })
+    let file = fs.openSync(this.uri);
+    let buf = new ArrayBuffer(4096);
+    fs.read(file.fd, buf, (err, readLen) => {
+        this.res = String.fromCharCode.apply(null, new Uint8Array(buf.slice(0, readLen)));
+        fs.closeSync(file);
+    })
   }
+
 
   build() {
     Row() {
       Column() {
-        Row(){
+        Row() {
           Text("txt阅读器")
-            .backgroundColor("#F5F5F5")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
-            .padding({left: 15})
-            .layoutWeight(6)
+            .margin({ left: 15, right: 15 })
+            .layoutWeight(2)
+          Select([{ value: '10px'}, { value: '15px'}, { value: '20px'}, { value: '25px'}, {value: '30px'}, { value: '35px'}])
+            .backgroundColor("ffffff")
+            .fontColor(Color.Black)
+            .selected(1)
+            .value('字号')
+            .font({ size: 25, weight: 500 })
+            .fontColor('#182431')
+            .selectedOptionFont({ size: 25, weight: 400 })
+            .optionFont({ size: 25, weight: 400 })
+            .onSelect((index: number) => {
+              this.fontSize = 5 * (index + 2)
+            })
+            .margin({ left: 15, right: 15 })
+            .layoutWeight(1)
           Button("导入")
             .onClick((event: ClickEvent) => {this.importText()})
-            .backgroundColor("#F5F5F5")
+            .backgroundColor("ffffff")
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Normal)
             .fontSize(25)
-            .padding({right: 15})
+            .margin({ left: 15, right: 15 })
             .layoutWeight(1)
+
         }
-        List() {
-          ForEach(newsList, (item, index) => {
-            ListItem() {
-              Column() {
-                Text(item.title)
-                  .id(`item${index}`)
-                  .width('100%')
-                  .fontSize(20)
-                Text(item.publisher)
-                  .width('100%')
-                  .fontSize(16)
-                  .fontColor(Color.Gray)
-              }
-              .padding(10)
-              .height('10%')
-              .constraintSize({ minHeight: 80 })
-              .backgroundColor(Color.White)
-              .justifyContent(FlexAlign.Center)
-            }
-            .onClick(() => {
-              if (!this.isLand) {
-                router.push({
-                  params: { title: item.title, newId: item.newId },
-                  url: 'pages/New' })
-              } else {
-                this.currentNew = null
-              }
-            })
-          }, item => JSON.stringify(item))
+        Scroll(this.scroller) {
+            Text(this.res)
+              .fontSize(this.fontSize)
+              .width('100%')
         }
-        .width('100%')
-        .height('100%')
-        .layoutWeight(1)
-        .divider({ strokeWidth: 1, startMargin: 15, endMargin: 15 })
-        .padding({ left: 10, right: 10 })
-      }
-      .layoutWeight(2)
-      .height('100%')
-      .backgroundColor($r('app.color.indexPage_color'))
+        .scrollable(ScrollDirection.Vertical)
+        .scrollBar(BarState.On)
+        .scrollBarColor(Color.Gray)
+        .scrollBarWidth(10)
 
 
-      if (this.isLand) {
-        NewView({ currentText: $currentNew })
+        if (this.isLand) {
+          NewView({ currentText: $currentNew })
+        }
       }
+      .size({ width: '100%', height: '100%' })
     }
-    .size({ width: '100%', height: '100%' })
   }
 }
