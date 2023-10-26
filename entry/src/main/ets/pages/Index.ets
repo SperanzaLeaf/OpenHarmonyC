@@ -16,10 +16,7 @@ import fs from '@ohos.file.fs'
 import picker from '@ohos.file.picker';
 import mediaQuery from '@ohos.mediaquery'
 import Logger from '../model/Logger'
-import { newsList } from '../model/New'
-import { NewView } from '../common/NewView'
-import { TextType } from '../model/DataModel'
-
+import util from '@ohos.util'
 
 const TAG = 'MainIndex'
 
@@ -27,9 +24,8 @@ const TAG = 'MainIndex'
 @Component
 struct Index {
   private listener = mediaQuery.matchMediaSync('screen and (min-aspect-ratio: 1.5) or (orientation: landscape)')
-  @State currentNew: TextType = null
   @State uri: string = 'Hello World'
-  @State res: string = 'Hello World'
+  @State res: string = ''
   @State fontSize: number = 15
   @State isLand: boolean = false
   private scroller: Scroller = new Scroller()
@@ -48,19 +44,20 @@ struct Index {
   }
 
   async importText() {
-    let textSelector = new picker.DocumentSelectOptions();
-    let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
-    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
-      DocumentSelectResult.forEach((value) => {
-        this.uri = value;
+      let textSelector = new picker.DocumentSelectOptions();
+      let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
+      documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
+        DocumentSelectResult.forEach((value) => {
+          this.uri = value;
+        })
       })
-    })
-    let file = fs.openSync(this.uri);
-    let buf = new ArrayBuffer(4096);
-    fs.read(file.fd, buf, (err, readLen) => {
-        this.res = String.fromCharCode.apply(null, new Uint8Array(buf.slice(0, readLen)));
-        fs.closeSync(file);
-    })
+      let file = fs.openSync(this.uri);
+      let buf = new ArrayBuffer(4096);
+      let rd = new util.TextDecoder("utf-8", {ignoreBOM: true})
+      fs.read(file.fd, buf, (err, readLen) => {
+          this.res = rd.decode(new Uint8Array(buf.slice(0, readLen)));
+          fs.closeSync(file);
+      })
   }
 
 
@@ -104,14 +101,9 @@ struct Index {
               .width('100%')
         }
         .scrollable(ScrollDirection.Vertical)
-        .scrollBar(BarState.On)
+        .scrollBar(BarState.Auto)
         .scrollBarColor(Color.Gray)
         .scrollBarWidth(10)
-
-
-        if (this.isLand) {
-          NewView({ currentText: $currentNew })
-        }
       }
       .size({ width: '100%', height: '100%' })
     }
