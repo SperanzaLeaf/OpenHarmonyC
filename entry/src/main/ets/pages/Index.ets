@@ -45,20 +45,20 @@ struct Index {
   }
 
   async importText() {
-      let textSelector = new picker.DocumentSelectOptions();
-      let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
-      documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
-        DocumentSelectResult.forEach((value) => {
-          this.uri = value;
-        })
+    let textSelector = new picker.DocumentSelectOptions();
+    let documentViewPicker = new picker.DocumentViewPicker(); // 创建文件选择器实例
+    documentViewPicker.select(textSelector).then((DocumentSelectResult) => {
+      DocumentSelectResult.forEach((value) => {
+        this.uri = value;
       })
-      let file = fs.openSync(this.uri);
-      let buf = new ArrayBuffer(64 * 1024 * 1024);
-      let rd = new util.TextDecoder("utf-8", {ignoreBOM: true})
-      fs.read(file.fd, buf, (err, readLen) => {
-          this.res = rd.decode(new Uint8Array(buf.slice(0, readLen)));
-          fs.closeSync(file);
-      })
+    })
+    let file = fs.openSync(this.uri);
+    let buf = new ArrayBuffer(64 * 1024 * 1024);
+    let rd = new util.TextDecoder("utf-8", {ignoreBOM: true})
+    fs.read(file.fd, buf, (err, readLen) => {
+      this.res = rd.decode(new Uint8Array(buf.slice(0, readLen)));
+      fs.closeSync(file);
+    })
   }
 
   /*Progress() {
@@ -110,10 +110,10 @@ struct Index {
         Row()
         {
           Scroll(this.scroller) {
-              Text(this.res)
-                .fontSize(this.fontSize)
-                .width('100%')
-                .onClick(() => {(this.prog = (this.scroller.currentOffset().yOffset / 16707.8 * 100).toFixed(0))})
+            Text(this.res)
+              .fontSize(this.fontSize)
+              .width('100%')
+              .onClick(() => {(this.prog = (this.scroller.currentOffset().yOffset / 16707.8 * 100).toFixed(0))})
           }
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(BarState.Auto)

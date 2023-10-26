@@ -1,8 +1,8 @@
 {
 	"BuildOptions":{
-		"BUNDLE_NAME":"ohos.samples.mediaquery",
+		"BUNDLE_NAME":"com.example.txtreader",
 		"BUILD_PATH":{
-			"OUTPUT_PATH":"D:\\LZUsen\\Comp\\OpenHamony23-10\\00\\OpenHarmonyC\\build\\outputs\\default"
+			"OUTPUT_PATH":"D:\\LZUsen\\Comp\\OpenHamony23-10\\submit\\build\\outputs\\default"
 		},
 		"SELECT_BUILD_PRODUCT":"default"
 	},

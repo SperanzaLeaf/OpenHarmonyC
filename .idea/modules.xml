@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MediaQuery.iml" filepath="$PROJECT_DIR$/.idea/modules/MediaQuery.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/entry/entry.iml" filepath="$PROJECT_DIR$/.idea/modules/entry/entry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/txtReader.iml" filepath="$PROJECT_DIR$/.idea/modules/txtReader.iml" />
     </modules>
   </component>
 </project>
